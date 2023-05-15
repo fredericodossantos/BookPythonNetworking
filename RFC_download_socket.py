@@ -13,7 +13,7 @@ req = ('GET /rfc/rfc{rfcnum}.txt HTTP/1.1\r\n'
        'Host: {host}:{port} \r\n'
        'User-Agent: Python {version} \r\n'
        'Connection: close\r\n'
-       'rzn')
+       'r\n')
 
 req = req.format(rfcnum = rfc_number, host= host, port=port, version=sys.version_info[0])
 sock.sendall(req.encode('ascii'))
