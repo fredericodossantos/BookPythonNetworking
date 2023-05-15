@@ -1,4 +1,6 @@
-import sys, socket
+import sys
+import ssl
+import socket
 
 try:
     rfc_number = int(sys.argv[1])
@@ -7,16 +9,18 @@ except (IndexError, ValueError):
     sys.exit(2)
 
 host = 'www.rfc-editor.org'
-port = 80
-sock = socket.create_connection((host,port))
+port = 443
+context = ssl.create_default_context()
+sock = socket.create_connection((host, port))
+sock = context.wrap_socket(sock, server_hostname=host)
 
-req = ('GET /rfc/rfc{rfcnum}.txt HTTP/1.1\r\n'
-       'Host: {host}:{port} \r\n'
-       'User-Agent: Python {version} \r\n'
+req = ('GET https://{host}/rfc/rfc{rfcnum}.txt HTTP/1.1\r\n'
+       'Host: {host}\r\n'
+       'User-Agent: Python {version}\r\n'
        'Connection: close\r\n'
        '\r\n')
 
-req = req.format(rfcnum=rfc_number, host=host, port=port, version=sys.version_info[0])
+req = req.format(rfcnum=rfc_number, host=host, version=sys.version_info[0])
 sock.sendall(req.encode('ascii'))
 
 rfc_bytes = bytearray()
