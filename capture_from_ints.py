@@ -1,7 +1,7 @@
 import pyshark
 
 # Choose an interface
-interface = '\\Device\\NPF_Loopback'
+interface = '\\Device\\NPF_{FA795EF5-484A-4F1A-9F16-9531AB2C25D1}'
 
 # Create a LiveCapture object using the chosen interface
 capture = pyshark.LiveCapture(interface=interface)
