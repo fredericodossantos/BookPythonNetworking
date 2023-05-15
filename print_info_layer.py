@@ -11,7 +11,12 @@ cap = pyshark.FileCapture(input_file, keep_packets=False)
 #     print(packet.highest_layer)
 
 def print_info_layer(packet):
-    print("[Protocol:] " + packet.highest_layer + " [Source IP:] " + packet.ip.src + " [Destination IP:] " + packet.ip.dst)
+    # Check if the packet has an IP layer
+    if 'IP' in packet:
+        print("[Protocol:] " + packet.highest_layer + " [Source IP:] " + packet.ip.src + " [Destination IP:] " + packet.ip.dst)
+    else:
+        print("[Protocol:] " + packet.highest_layer + " [No IP layer]")
+
 
 
 cap.apply_on_packets(print_info_layer)
